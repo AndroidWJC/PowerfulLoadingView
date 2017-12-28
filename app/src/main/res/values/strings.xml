@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PowerfulLoadingView</string>
+
+    <string name="loading_summary">加载中&#8230;</string>
+</resources>
