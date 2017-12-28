@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PowerfulLoadingView">
+        <!--加载视图背景的颜色-->
         <attr name="bg_color" format="color"/>
+        <!--加载条的颜色-->
         <attr name="loading_bar_color" format="color"/>
+        <!--钩和叉的颜色-->
         <attr name="tick_cross_color" format="color"/>
     </declare-styleable>
 </resources>

@@ -14,6 +14,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -106,6 +107,10 @@ public class PowerfulLoadingView extends View {
         mCircleAngleAnimator.start();
     }
 
+    public void loadSucceed() {
+        loadSucceed(null);
+    }
+
     public void loadSucceed(@Nullable Animator.AnimatorListener listener) {
         clearAllAnimator();
 
@@ -125,6 +130,10 @@ public class PowerfulLoadingView extends View {
 
         mAnimatorSet.play(mTickAnim).after(mCircleRadiusAnimator).with(mScaleAnimator);
         mAnimatorSet.start();
+    }
+
+    public void loadFailed() {
+        loadFailed(null);
     }
 
     public void loadFailed(@Nullable Animator.AnimatorListener listener) {
@@ -185,6 +194,7 @@ public class PowerfulLoadingView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        Log.i("PowerfulLoadingView", "wjc: -1 onMeasure");
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 

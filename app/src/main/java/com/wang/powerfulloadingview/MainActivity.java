@@ -54,10 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.show_loading:
-                mLoadingViewInside.setVisibility(View.VISIBLE);
-                mLoadingViewInside.startLoading();
+                if (mLoadingViewInside.getVisibility() != View.VISIBLE) {
+                    mLoadingViewInside.setVisibility(View.VISIBLE);
+                    mLoadingViewInside.startLoading();
+                    mHandler.postDelayed(checkInput2, 2000);
+                }
 
-                mHandler.postDelayed(checkInput2, 2000);
                 break;
         }
     }
