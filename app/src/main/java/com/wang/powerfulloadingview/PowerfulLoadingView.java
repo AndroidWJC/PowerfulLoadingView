@@ -24,8 +24,8 @@ public class PowerfulLoadingView extends View {
 
     private static final int ANIMATOR_TIME = 1000;
     private static final int STROKE_WIDTH = 5;
-    private static final int DEFAULT_CONTENT_COLOR = Color.rgb(65, 105, 225 );
-    private static final int DEFAULT_LOADING_BAR_COLOR = Color.WHITE;
+    private static final int DEFAULT_CONTENT_COLOR = Color.WHITE;
+    private static final int DEFAULT_LOADING_BAR_COLOR = Color.rgb(65, 105, 225);
     private static final int DEFAULT_BG_COLOR = Color.argb(55, 0, 0, 0);
 
     private Paint mPaintFill;

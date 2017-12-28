@@ -5,11 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,26 +18,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button mLoadBtn;
     private Button mLoadWithTextBtn;
+    private Button mLoadInsideBtn;
     private EditText mInputEt;
 
     private Dialog mLoadingDialog = null;
     private PowerfulLoadingView mLoadingView = null;
+    private PowerfulLoadingView mLoadingViewInside = null;
 
     private Handler mHandler = new Handler();
-
-    private Runnable checkInput = new Runnable() {
-        @Override
-        public void run() {
-            String input = mInputEt.getText().toString();
-            dismissLoadingDialog(input.equals("123"), new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                    //加载完成后的相关逻辑
-                }
-            });
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +33,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mInputEt = (EditText) findViewById(R.id.input);
-
         mLoadBtn = (Button) findViewById(R.id.load_btn);
         mLoadBtn.setOnClickListener(this);
-
         mLoadWithTextBtn = (Button) findViewById(R.id.load_btn_summary);
         mLoadWithTextBtn.setOnClickListener(this);
+        mLoadingViewInside = (PowerfulLoadingView) findViewById(R.id.loading_view_inside);
+        mLoadInsideBtn = (Button) findViewById(R.id.show_loading);
+        mLoadInsideBtn.setOnClickListener(this);
     }
 
     @Override
@@ -64,8 +52,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.load_btn_summary:
                 showLoadingDialog(MainActivity.this, R.string.loading_summary);
                 break;
+
+            case R.id.show_loading:
+                mLoadingViewInside.setVisibility(View.VISIBLE);
+                mLoadingViewInside.startLoading();
+
+                mHandler.postDelayed(checkInput2, 2000);
+                break;
         }
     }
+
+    private Runnable checkInput2 = new Runnable() {
+        @Override
+        public void run() {
+            String input = mInputEt.getText().toString();
+            finishLoading(input.equals("123"));
+        }
+    };
 
     private void showLoadingDialog(Context context) {
         showLoadingDialog(context, 0);
@@ -91,7 +94,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mHandler.postDelayed(checkInput, 2000);
     }
 
-    public void dismissLoadingDialog(final boolean succeed,
+
+    private Runnable checkInput = new Runnable() {
+        @Override
+        public void run() {
+            String input = mInputEt.getText().toString();
+            dismissLoadingDialog(input.equals("123"), new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                    //加载完成后的相关逻辑
+                }
+            });
+        }
+    };
+
+    private void dismissLoadingDialog(final boolean succeed,
                                      @Nullable final Animator.AnimatorListener listener) {
 
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
@@ -120,6 +138,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             }
+        }
+    }
+
+    private void finishLoading(boolean succeed) {
+        if (succeed) {
+            mLoadingViewInside.loadSucceed(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoadingViewInside.clearAllAnimator();
+                    mLoadingViewInside.setVisibility(View.GONE);
+
+                    //动画完成后的逻辑
+                }
+            });
+        } else {
+            mLoadingViewInside.loadFailed(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoadingViewInside.clearAllAnimator();
+                    mLoadingViewInside.setVisibility(View.GONE);
+                }
+            });
         }
     }
 }

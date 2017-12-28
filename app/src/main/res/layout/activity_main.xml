@@ -26,4 +26,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:background="#cccccc"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <com.wang.powerfulloadingview.PowerfulLoadingView
+            android:id="@+id/loading_view_inside"
+            android:visibility="gone"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <Button
+            android:id="@+id/show_loading"
+            android:text="显示加载动画（控件内部）"
+            android:background="@null"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
 </LinearLayout>
